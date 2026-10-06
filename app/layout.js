@@ -10,7 +10,7 @@ import { usePathname, useRouter } from "next/navigation";
 import Sidebar from "../components/Sidebar";
 import TopBar from "../components/TopBar";
 
-const inter = Inter({ subsets: ["latin"], variable: "--font-inter"});
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 const isTokenExpired = (token) => {
   if (!token) return true;
@@ -34,7 +34,6 @@ const pageTitles = {
 };
 
 const authRoutes = ["/login", "/register"];
-
 
 function LayoutContent({ children }) {
   const pathname = usePathname();
@@ -61,14 +60,14 @@ function LayoutContent({ children }) {
         return;
       }
     }
-    
+
     setIsAuthorized(true);
-    
+
     const savedState = localStorage.getItem("sidebarCollapsed");
     if (savedState !== null) {
       setSidebarCollapsed(savedState === "true");
     }
-    
+
     requestAnimationFrame(() => {
       setIsVisible(true);
     });
@@ -110,9 +109,11 @@ function LayoutContent({ children }) {
       <div className="min-h-screen">
         <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
         <TopBar title={title} sidebarCollapsed={sidebarCollapsed} />
-        <main className={`${sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"} ml-0 pt-16 min-h-screen transition-all duration-300`}>
+        <main
+          className={`ml-20 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"} pt-16 min-h-screen transition-all duration-300`}
+        >
           <div className={`p-3 sm:p-6 ${bgColor}`}>
-            <div 
+            <div
               className="transition-all duration-700"
               style={{
                 transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
@@ -132,7 +133,6 @@ function LayoutContent({ children }) {
   return <>{children}</>;
 }
 
-// Main Layout component
 export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`} suppressHydrationWarning>
