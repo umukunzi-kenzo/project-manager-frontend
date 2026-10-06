@@ -14,13 +14,13 @@ import { useTheme } from "../context/ThemeContext";
 
 const navItems = [
   { label: "Home", href: "/dashboard", icon: Home },
-  { label: "Projects", href: "/dashboard/projects", icon: FolderKanban },
-  { label: "Tasks", href: "/dashboard/tasks", icon: CheckSquare },
-  { label: "Calendar", href: "/dashboard/calendar", icon: Calendar },
-  { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-  { label: "Members", href: "/dashboard/members", icon: Users },
-  { label: "Activity", href: "/dashboard/activity", icon: Activity },
-  { label: "Settings", href: "/dashboard/settings", icon: Settings },
+  { label: "Projects", href: "/projects", icon: FolderKanban },
+  { label: "Tasks", href: "/tasks", icon: CheckSquare },
+  { label: "Calendar", href: "/calendar", icon: Calendar },
+  { label: "Messages", href: "/messages", icon: MessageSquare },
+  { label: "Members", href: "/members", icon: Users },
+  { label: "Activity", href: "/activity", icon: Activity },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 const CollabiLogo = ({ collapsed, isDarkMode }) => {
@@ -102,7 +102,10 @@ export default function Sidebar({ collapsed, onToggle }) {
       </div>
 
       <div className={`p-4 ${collapsed ? "px-2" : ""}`}>
-        <button className={`w-full bg-[#4B0082] hover:bg-[#3a0066] text-white rounded-xl py-2.5 flex items-center justify-center gap-2 transition-all duration-200 text-sm font-medium ${collapsed ? "px-2" : ""}`}>
+        <button 
+          onClick={() => router.push("/tasks")}
+          className={`w-full bg-[#4B0082] hover:bg-[#3a0066] text-white rounded-xl py-2.5 flex items-center justify-center gap-2 transition-all duration-200 text-sm font-medium ${collapsed ? "px-2" : ""}`}
+        >
           <PlusCircle className="w-4 h-4" />
           {!collapsed && <span>Add New Task</span>}
         </button>
@@ -120,7 +123,7 @@ export default function Sidebar({ collapsed, onToggle }) {
                 ${collapsed ? "justify-center px-2 py-3" : "px-3 py-2.5"}
                 ${active 
                   ? isDarkMode
-                    ? "bg-[#4B0082]/20 text-[#4B0082]"
+                    ? "bg-[#4B0082]/20 text-[#A855F7]"
                     : "bg-[#4B0082]/10 text-[#4B0082]"
                   : isDarkMode
                     ? "text-gray-400 hover:bg-white/5 hover:text-white"
@@ -156,7 +159,7 @@ export default function Sidebar({ collapsed, onToggle }) {
           w-6 h-6 rounded-full border flex items-center justify-center
           transition-all hover:scale-110 shadow-md
           ${isDarkMode
-            ? "bg-[#1a1a1f] border-[#2a2a2f] text-gray-400 hover:text-white hover:border-[#4B0082]"
+            ? "bg-[#1a1a1f] border-[#2a2a2f] text-gray-400 hover:text-white hover:border-[#A855F7]"
             : "bg-white border-gray-200 text-gray-500 hover:text-[#4B0082] hover:border-[#4B0082]"
           }
         `}

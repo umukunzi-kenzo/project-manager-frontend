@@ -1,22 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Bell, Search, Menu, X, PlusCircle, LogOut, ChevronDown, Settings } from "lucide-react";
+import { Bell, Search, Menu, X, PlusCircle, LogOut, ChevronDown } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { useTheme } from "../context/ThemeContext";
 import { useRouter } from "next/navigation";
-import { Home, FolderKanban, Calendar, MessageSquare, Briefcase, Users, Activity, Settings as SettingsIcon, CheckSquare } from "lucide-react";
+import { Home, FolderKanban, Calendar, MessageSquare, Briefcase, Users, Activity, Settings, CheckSquare } from "lucide-react";
 
 const navItems = [
   { label: "Home", href: "/dashboard", icon: Home },
-  { label: "Projects", href: "/dashboard/projects", icon: FolderKanban },
-  { label: "Tasks", href: "/dashboard/tasks", icon: CheckSquare },
-  { label: "Calendar", href: "/dashboard/calendar", icon: Calendar },
-  { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
-  { label: "Members", href: "/dashboard/members", icon: Users },
-  { label: "Activity", href: "/dashboard/activity", icon: Activity },
-  { label: "Settings", href: "/dashboard/settings", icon: SettingsIcon },
+  { label: "Projects", href: "/projects", icon: FolderKanban },
+  { label: "Tasks", href: "/tasks", icon: CheckSquare },
+  { label: "Calendar", href: "/calendar", icon: Calendar },
+  { label: "Messages", href: "/messages", icon: MessageSquare },
+  { label: "Members", href: "/members", icon: Users },
+  { label: "Activity", href: "/activity", icon: Activity },
+  { label: "Settings", href: "/settings", icon: Settings },
 ];
 
 export default function TopBar({ title, sidebarCollapsed = false }) {
@@ -62,7 +62,7 @@ export default function TopBar({ title, sidebarCollapsed = false }) {
   const handleSettings = () => {
     setIsExiting(true);
     setTimeout(() => {
-      router.push("/dashboard/settings");
+      router.push("/settings");
     }, 450);
   };
 
@@ -122,7 +122,6 @@ export default function TopBar({ title, sidebarCollapsed = false }) {
               <span className="absolute top-2 right-2 w-2 h-2 bg-red-500 rounded-full" />
             </button>
 
-            {/* User Dropdown with Avatar */}
             <div className="relative">
               <button
                 onClick={() => setUserDropdownOpen(!userDropdownOpen)}
@@ -253,4 +252,4 @@ export default function TopBar({ title, sidebarCollapsed = false }) {
       )}
     </>
   );
-} 
+}

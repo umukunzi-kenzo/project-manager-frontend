@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+ cat >> .gitignore << 'EOF'
+
+# Dev scripts output
+scripts/debug-transparent.png
+
+# Junk images
+app/chatgpt favicon.png
+EOF
