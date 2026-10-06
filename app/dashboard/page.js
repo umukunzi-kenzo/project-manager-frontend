@@ -364,18 +364,18 @@ export default function DashboardPage() {
   }
 
   return (
-    <div className="space-y-5 max-w-7xl mx-auto px-4">
+    <div className="space-y-5 max-w-7xl mx-auto px-2 sm:px-4">
       
       {/* Welcome Banner */}
       <div 
-        className="rounded-xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
+        className="rounded-xl p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 sm:gap-4"
         style={{ backgroundColor: "#4B0082" }}
       >
         <div>
-          <h2 className="text-xl font-bold text-white">
+          <h2 className="text-lg sm:text-xl font-bold text-white">
             Welcome back, {user?.name?.split(" ")[0] || "there"}
           </h2>
-          <p className="text-sm text-white/80 mt-1">
+          <p className="text-xs sm:text-sm text-white/80 mt-1">
             You have {stats.myTasksCount} tasks and {stats.myProjectsCount} projects assigned to you
           </p>
         </div>
@@ -390,54 +390,54 @@ export default function DashboardPage() {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-        <div className={`p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
+        <div className={`p-3 sm:p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
           isDarkMode
             ? "bg-[#1a1c23] border-[#2a2d35] hover:border-[#A855F7] hover:shadow-lg hover:shadow-[#A855F7]/20"
             : "bg-white border-gray-100 hover:border-[#4B0082] hover:shadow-lg hover:shadow-[#4B0082]/20"
         }`}>
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
-            <FolderKanban className="w-4.5 h-4.5" style={{ color: brandColor }} />
+          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center mb-2 sm:mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
+            <FolderKanban className="w-4 h-4 sm:w-4.5 sm:h-4.5" style={{ color: brandColor }} />
           </div>
-          <p className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.total}</p>
+          <p className={`text-lg sm:text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.total}</p>
           <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Projects</p>
           <p className="text-xs font-semibold mt-1.5" style={{ color: brandColor }}>{stats.completed} completed</p>
         </div>
         
-        <div className={`p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
+        <div className={`p-3 sm:p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
           isDarkMode
             ? "bg-[#1a1c23] border-[#2a2d35] hover:border-[#A855F7]"
             : "bg-white border-gray-100 hover:border-[#4B0082]"
         }`}>
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
-            <CheckSquare className="w-4.5 h-4.5" style={{ color: brandColor }} />
+          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center mb-2 sm:mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
+            <CheckSquare className="w-4 h-4 sm:w-4.5 sm:h-4.5" style={{ color: brandColor }} />
           </div>
-          <p className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.completedTasks}/{stats.totalTasks}</p>
+          <p className={`text-lg sm:text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.completedTasks}/{stats.totalTasks}</p>
           <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Tasks done</p>
           <p className="text-xs font-semibold mt-1.5" style={{ color: brandColor }}>{stats.totalTasks - stats.completedTasks} remaining</p>
         </div>
         
-        <div className={`p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
+        <div className={`p-3 sm:p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
           isDarkMode
             ? "bg-[#1a1c23] border-[#2a2d35] hover:border-[#A855F7]"
             : "bg-white border-gray-100 hover:border-[#4B0082]"
         }`}>
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
-            <UserCheck className="w-4.5 h-4.5" style={{ color: brandColor }} />
+          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center mb-2 sm:mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
+            <UserCheck className="w-4 h-4 sm:w-4.5 sm:h-4.5" style={{ color: brandColor }} />
           </div>
-          <p className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.myTasksCount}</p>
-          <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Tasks assigned to you</p>
-          <p className="text-xs font-semibold mt-1.5" style={{ color: brandColor }}>Need your attention</p>
+          <p className={`text-lg sm:text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.myTasksCount}</p>
+          <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Tasks assigned</p>
+          <p className="text-xs font-semibold mt-1.5" style={{ color: brandColor }}>Need attention</p>
         </div>
         
-        <div className={`p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
+        <div className={`p-3 sm:p-3.5 rounded-xl border transition-all hover:scale-[1.02] cursor-pointer ${
           isDarkMode
             ? "bg-[#1a1c23] border-[#2a2d35] hover:border-[#A855F7]"
             : "bg-white border-gray-100 hover:border-[#4B0082]"
         }`}>
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
-            <AlertCircle className="w-4.5 h-4.5" style={{ color: brandColor }} />
+          <div className={`w-8 h-8 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center mb-2 sm:mb-2.5 ${isDarkMode ? "bg-[#252832]" : "bg-gray-100"}`}>
+            <AlertCircle className="w-4 h-4 sm:w-4.5 sm:h-4.5" style={{ color: brandColor }} />
           </div>
-          <p className={`text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.overdue}</p>
+          <p className={`text-lg sm:text-xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{stats.overdue}</p>
           <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Overdue</p>
           <p className="text-xs font-semibold mt-1.5" style={{ color: brandColor }}>Need attention</p>
         </div>
@@ -454,7 +454,7 @@ export default function DashboardPage() {
             <h3 className={`text-base font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>My Tasks</h3>
             <ListTodo className="w-4 h-4" style={{ color: brandColor }} />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 overflow-hidden">
             <div className="space-y-2">
               {myTasks.length === 0 ? (
                 <p className={`text-sm text-center py-4 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
@@ -471,16 +471,16 @@ export default function DashboardPage() {
                       className="mt-0.5 w-4 h-4 rounded accent-[#4B0082] dark:accent-[#A855F7] cursor-pointer"
                     />
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm ${task.completed ? "line-through opacity-50" : ""} ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
+                      <p className={`text-sm truncate ${task.completed ? "line-through opacity-50" : ""} ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}>
                         {task.title}
                       </p>
-                      <p className={`text-xs mt-0.5 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
+                      <p className={`text-xs mt-0.5 truncate ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
                         {task.projectTitle}
                       </p>
                     </div>
                     <button
                       onClick={() => router.push(`/tasks`)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity"
+                      className="opacity-0 group-hover:opacity-100 transition-opacity shrink-0"
                       title="View all tasks"
                     >
                       <Eye className="w-3.5 h-3.5" style={{ color: brandColor }} />
@@ -512,7 +512,7 @@ export default function DashboardPage() {
             <h3 className={`text-base font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>My Projects</h3>
             <FolderKanban className="w-4 h-4" style={{ color: brandColor }} />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 overflow-hidden">
             <div className="space-y-3">
               {myProjects.length === 0 ? (
                 <p className={`text-sm text-center py-4 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
@@ -529,7 +529,7 @@ export default function DashboardPage() {
                       className="p-3 rounded-lg cursor-pointer hover:bg-purple-500/10 transition-all"
                       onClick={() => router.push(`/projects`)}
                     >
-                      <p className={`text-sm font-medium ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                      <p className={`text-sm font-medium truncate ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                         {project.title}
                       </p>
                       <p className={`text-xs mt-1 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
@@ -569,7 +569,7 @@ export default function DashboardPage() {
           isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-100"
         }`}>
           <h3 className={`text-base font-semibold mb-3 ${isDarkMode ? "text-white" : "text-gray-900"}`}>Upcoming Deadlines</h3>
-          <div className="flex-1">
+          <div className="flex-1 overflow-hidden">
             <div className="space-y-3">
               {deadlines.length === 0 ? (
                 <p className={`text-sm text-center py-4 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
@@ -590,9 +590,9 @@ export default function DashboardPage() {
                     }`}
                     onClick={() => router.push(`/projects`)}
                   >
-                    <div className="flex justify-between items-start mb-2">
-                      <div className="flex-1">
-                        <p className={`text-sm font-medium ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                    <div className="flex justify-between items-start mb-2 gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className={`text-sm font-medium truncate ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                           {d.title}
                         </p>
                         {d.isAssignedToMe && (
@@ -601,7 +601,7 @@ export default function DashboardPage() {
                           </span>
                         )}
                       </div>
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full shrink-0 ${
                         d.overdue
                           ? "bg-red-500/20 text-red-400"
                           : d.urgent
@@ -642,13 +642,13 @@ export default function DashboardPage() {
       </div>
 
       {/* Mini Calendar Section - Simple Version */}
-      <div className={`p-5 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-100"}`}>
-        <div className="flex items-center justify-between mb-4">
+      <div className={`p-4 sm:p-5 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-100"}`}>
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4">
           <div className="flex items-center gap-2">
             <CalendarIcon className="w-5 h-5" style={{ color: brandColor }} />
             <h3 className={`text-base font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>Calendar</h3>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto justify-between sm:justify-end">
             <button
               onClick={goToToday}
               className={`text-xs px-2 py-1 rounded transition-all hover:scale-105 ${
@@ -659,21 +659,23 @@ export default function DashboardPage() {
             >
               Today
             </button>
-            <button
-              onClick={() => changeMonth(-1)}
-              className={`p-1 rounded transition-all hover:scale-105 ${isDarkMode ? "hover:bg-[#252832]" : "hover:bg-gray-100"}`}
-            >
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className={`text-sm font-medium ${isDarkMode ? "text-white" : "text-gray-900"}`}>
-              {monthNames[currentMonth]} {currentYear}
-            </span>
-            <button
-              onClick={() => changeMonth(1)}
-              className={`p-1 rounded transition-all hover:scale-105 ${isDarkMode ? "hover:bg-[#252832]" : "hover:bg-gray-100"}`}
-            >
-              <ChevronRight className="w-4 h-4" />
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => changeMonth(-1)}
+                className={`p-1 rounded transition-all hover:scale-105 ${isDarkMode ? "hover:bg-[#252832]" : "hover:bg-gray-100"}`}
+              >
+                <ChevronLeft className="w-4 h-4" />
+              </button>
+              <span className={`text-sm font-medium whitespace-nowrap ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                {monthNames[currentMonth]} {currentYear}
+              </span>
+              <button
+                onClick={() => changeMonth(1)}
+                className={`p-1 rounded transition-all hover:scale-105 ${isDarkMode ? "hover:bg-[#252832]" : "hover:bg-gray-100"}`}
+              >
+                <ChevronRight className="w-4 h-4" />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -701,7 +703,7 @@ export default function DashboardPage() {
               <div
                 key={dateStr}
                 onClick={() => router.push("/calendar")}
-                className={`h-10 flex flex-col items-center justify-center rounded-lg cursor-pointer transition-all hover:bg-purple-500/10 ${
+                className={`relative h-10 flex items-center justify-center rounded-lg cursor-pointer transition-all hover:bg-purple-500/10 overflow-hidden ${
                   isToday ? "bg-[#4B0082]/20" : ""
                 }`}
               >
@@ -709,7 +711,7 @@ export default function DashboardPage() {
                   {date.getDate()}
                 </span>
                 {eventCount > 0 && (
-                  <div className="w-1.5 h-1.5 rounded-full bg-[#4B0082] mt-0.5" />
+                  <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-[#4B0082]" />
                 )}
               </div>
             );
@@ -717,7 +719,7 @@ export default function DashboardPage() {
         </div>
         
         {/* Simple Legend */}
-        <div className="flex items-center justify-center gap-4 mt-4 pt-3 border-t" style={{ borderColor: isDarkMode ? "#2a2d35" : "#e5e7eb" }}>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mt-4 pt-3 border-t" style={{ borderColor: isDarkMode ? "#2a2d35" : "#e5e7eb" }}>
           <div className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full bg-[#4B0082]"></div>
             <span className={`text-xs ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>Has events</span>

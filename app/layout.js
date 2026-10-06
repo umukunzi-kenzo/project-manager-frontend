@@ -110,8 +110,8 @@ function LayoutContent({ children }) {
       <div className="min-h-screen">
         <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
         <TopBar title={title} sidebarCollapsed={sidebarCollapsed} />
-        <main className={`${sidebarCollapsed ? "ml-20" : "ml-64"} pt-16 min-h-screen transition-all duration-300`}>
-          <div className={`p-6 ${bgColor}`}>
+        <main className={`${sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"} ml-0 pt-16 min-h-screen transition-all duration-300`}>
+          <div className={`p-3 sm:p-6 ${bgColor}`}>
             <div 
               className="transition-all duration-700"
               style={{
@@ -148,14 +148,10 @@ export default function RootLayout({ children }) {
                   const isDark = saved === "dark";
                   if (isDark) {
                     document.documentElement.classList.add("dark");
-                    document.body.classList.add("dark-mode");
                   } else {
                     document.documentElement.classList.remove("dark");
-                    document.body.classList.add("light-mode");
                   }
-                } catch (e) {
-                  document.body.classList.add("light-mode");
-                }
+                } catch (e) {}
               })();
             `,
           }}
