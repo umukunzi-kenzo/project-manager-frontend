@@ -17,7 +17,7 @@ const loginSchema = z.object({
 
 export default function LoginPage() {
   const router = useRouter();
-  const { themeClass, isDarkMode, isMounted } = useTheme();
+  const { themeClass, isDarkMode } = useTheme();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -37,8 +37,6 @@ export default function LoginPage() {
   }, []);
 
   useEffect(() => {
-    if (!isMounted) return;
-
     const render = () => {
       const btnContainer = document.getElementById("google-login-btn-hidden");
       if (!window.google || !btnContainer) return false;
@@ -73,7 +71,7 @@ export default function LoginPage() {
       clearInterval(interval);
       clearTimeout(timeout);
     };
-  }, [isMounted]);
+  }, []);
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -163,21 +161,6 @@ export default function LoginPage() {
     if (fieldErrors[field]) setFieldErrors((p) => ({ ...p, [field]: null }));
     if (formError) setFormError("");
   };
-
-  if (!isMounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-[#111111]">
-        <div className="w-full max-w-md p-6 sm:p-7 rounded-2xl bg-[#1c1c1e] border border-gray-800 shadow-xl">
-          <div className="h-10 bg-gray-800 rounded animate-pulse mb-6 mx-auto w-32" />
-          <div className="space-y-3">
-            <div className="h-11 bg-gray-800 rounded animate-pulse" />
-            <div className="h-11 bg-gray-800 rounded animate-pulse" />
-            <div className="h-11 bg-gray-800 rounded animate-pulse mt-4" />
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const inputBase = "w-full pl-11 py-2.5 rounded-xl border focus:outline-none transition-all duration-200 text-base sm:text-[15.5px] ";
 

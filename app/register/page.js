@@ -18,7 +18,7 @@ const registerSchema = z.object({
 
 export default function RegisterPage() {
   const router = useRouter();
-  const { themeClass, isDarkMode, isMounted } = useTheme();
+  const { themeClass, isDarkMode } = useTheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -31,8 +31,6 @@ export default function RegisterPage() {
   const [googleReady, setGoogleReady] = useState(false);
 
   useEffect(() => {
-    if (!isMounted) return;
-
     const render = () => {
       const btnContainer = document.getElementById("google-register-btn-hidden");
       if (!window.google || !btnContainer) return false;
@@ -71,7 +69,7 @@ export default function RegisterPage() {
       clearInterval(interval);
       clearTimeout(timeout);
     };
-  }, [isMounted]);
+  }, []);
 
   useEffect(() => {
     requestAnimationFrame(() => {
@@ -159,21 +157,6 @@ export default function RegisterPage() {
     if (fieldErrors[field]) setFieldErrors((p) => ({ ...p, [field]: null }));
     if (formError) setFormError("");
   };
-
-  if (!isMounted) {
-    return (
-      <div className="min-h-screen flex items-center justify-center px-4 sm:px-6 bg-[#111111]">
-        <div className="w-full max-w-md p-6 sm:p-7 rounded-2xl bg-[#1c1c1e] border border-gray-800 shadow-xl">
-          <div className="h-10 bg-gray-800 rounded animate-pulse mb-6 mx-auto w-32" />
-          <div className="space-y-3">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="h-11 bg-gray-800 rounded animate-pulse" />
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
 
   const inputBase = "w-full pl-11 py-2.5 rounded-xl border focus:outline-none transition-all duration-200 text-base sm:text-[15.5px] ";
 
