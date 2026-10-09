@@ -91,14 +91,11 @@ function ActivityDetailModal({ activity, isOpen, onClose, isDarkMode }) {
     return labels[type] || "Activity";
   };
 
-  // Format message - only bold quoted text and user names
   const formatModalMessage = (message) => {
-    // Bold only the quoted text (task names and project names)
-    let formatted = message.replace(/"([^"]+)"/g, '<strong class="font-bold">"$1"</strong>');
-    // Bold user names after "to", "by", "assigned to"
-    formatted = formatted.replace(/to (\w+ \w+|\w+)/g, 'to <strong class="font-bold">$1</strong>');
-    formatted = formatted.replace(/by (\w+ \w+|\w+)/g, 'by <strong class="font-bold">$1</strong>');
-    formatted = formatted.replace(/assigned to (\w+ \w+|\w+)/g, 'assigned to <strong class="font-bold">$1</strong>');
+    let formatted = message.replace(/"([^"]+)"/g, '<strong class="font-bold break-words">"$1"</strong>');
+    formatted = formatted.replace(/to (\w+ \w+|\w+)/g, 'to <strong class="font-bold break-words">$1</strong>');
+    formatted = formatted.replace(/by (\w+ \w+|\w+)/g, 'by <strong class="font-bold break-words">$1</strong>');
+    formatted = formatted.replace(/assigned to (\w+ \w+|\w+)/g, 'assigned to <strong class="font-bold break-words">$1</strong>');
     return formatted;
   };
 
@@ -132,7 +129,7 @@ function ActivityDetailModal({ activity, isOpen, onClose, isDarkMode }) {
               Description
             </label>
             <p 
-              className={`text-sm ${isDarkMode ? "text-white" : "text-gray-900"}`}
+              className={`text-sm break-words ${isDarkMode ? "text-white" : "text-gray-900"}`}
               dangerouslySetInnerHTML={{ __html: formatModalMessage(activity.message) }}
             />
           </div>
@@ -161,11 +158,11 @@ function ActivityDetailModal({ activity, isOpen, onClose, isDarkMode }) {
               <label className={`block text-xs font-medium mb-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
                 Performed By
               </label>
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-[#4B0082]/20 flex items-center justify-center text-xs font-medium text-[#4B0082]">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-6 h-6 rounded-full bg-[#4B0082]/20 flex items-center justify-center text-xs font-medium text-[#4B0082] shrink-0">
                   {activity.user.charAt(0).toUpperCase()}
                 </div>
-                <span className={`text-sm font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                <span className={`text-sm font-semibold break-words ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                   {activity.user}
                 </span>
               </div>
@@ -177,7 +174,7 @@ function ActivityDetailModal({ activity, isOpen, onClose, isDarkMode }) {
               <label className={`block text-xs font-medium mb-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
                 Related Project
               </label>
-              <p className={`text-sm font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <p className={`text-sm font-semibold break-words ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                 {activity.projectTitle}
               </p>
             </div>
@@ -188,7 +185,7 @@ function ActivityDetailModal({ activity, isOpen, onClose, isDarkMode }) {
               <label className={`block text-xs font-medium mb-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
                 Related Task
               </label>
-              <p className={`text-sm font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+              <p className={`text-sm font-semibold break-words ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                 {activity.taskTitle}
               </p>
             </div>
@@ -199,11 +196,11 @@ function ActivityDetailModal({ activity, isOpen, onClose, isDarkMode }) {
               <label className={`block text-xs font-medium mb-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
                 Assigned To
               </label>
-              <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-xs font-medium text-green-500">
+              <div className="flex items-center gap-2 min-w-0">
+                <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center text-xs font-medium text-green-500 shrink-0">
                   {activity.assignedTo.charAt(0).toUpperCase()}
                 </div>
-                <span className={`text-sm font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+                <span className={`text-sm font-semibold break-words ${isDarkMode ? "text-white" : "text-gray-900"}`}>
                   {activity.assignedTo}
                 </span>
               </div>
@@ -275,7 +272,6 @@ function ActivityCard({ activity, isDarkMode, onViewDetails }) {
     }
   };
 
-  // Get user initial for avatar
   const getUserInitial = () => {
     if (activity.user) {
       return activity.user.charAt(0).toUpperCase();
@@ -283,20 +279,17 @@ function ActivityCard({ activity, isDarkMode, onViewDetails }) {
     return "U";
   };
 
-  // Format message - only bold quoted text and user names
   const formatMessage = (message) => {
-    // Bold only the quoted text (task names and project names)
-    let formatted = message.replace(/"([^"]+)"/g, '<strong class="font-bold">"$1"</strong>');
-    // Bold user names after "to", "by", "assigned to"
-    formatted = formatted.replace(/to (\w+ \w+|\w+)/g, 'to <strong class="font-bold">$1</strong>');
-    formatted = formatted.replace(/by (\w+ \w+|\w+)/g, 'by <strong class="font-bold">$1</strong>');
-    formatted = formatted.replace(/assigned to (\w+ \w+|\w+)/g, 'assigned to <strong class="font-bold">$1</strong>');
+    let formatted = message.replace(/"([^"]+)"/g, '<strong class="font-bold break-words">"$1"</strong>');
+    formatted = formatted.replace(/to (\w+ \w+|\w+)/g, 'to <strong class="font-bold break-words">$1</strong>');
+    formatted = formatted.replace(/by (\w+ \w+|\w+)/g, 'by <strong class="font-bold break-words">$1</strong>');
+    formatted = formatted.replace(/assigned to (\w+ \w+|\w+)/g, 'assigned to <strong class="font-bold break-words">$1</strong>');
     return formatted;
   };
 
   return (
-    <div className={`p-4 rounded-xl border transition-all hover:shadow-lg hover:border-[#4B0082] group ${getBackgroundColor()}`}>
-      <div className="flex items-start gap-3">
+    <div className={`p-3 sm:p-4 rounded-xl border transition-all hover:shadow-lg hover:border-[#4B0082] group overflow-hidden ${getBackgroundColor()}`}>
+      <div className="flex items-start gap-3 min-w-0">
         {/* User Avatar */}
         <div className="flex-shrink-0">
           <div className="w-8 h-8 rounded-full bg-[#4B0082]/20 flex items-center justify-center text-sm font-medium text-[#4B0082]">
@@ -305,25 +298,27 @@ function ActivityCard({ activity, isDarkMode, onViewDetails }) {
         </div>
         
         <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-2 flex-wrap mb-1">
+          <div className="flex items-center gap-2 flex-wrap mb-1 min-w-0">
             <span 
-              className={`text-sm ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
+              className={`text-sm break-words w-full ${isDarkMode ? "text-gray-300" : "text-gray-700"}`}
               dangerouslySetInnerHTML={{ __html: formatMessage(activity.message) }}
             />
           </div>
-          <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-3 flex-wrap text-xs min-w-0">
             <div className={`flex items-center gap-1 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
-              <Calendar className="w-3 h-3" />
+              <Calendar className="w-3 h-3 shrink-0" />
               <span>{activity.date}</span>
             </div>
             <div className={`flex items-center gap-1 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
-              <Clock className="w-3 h-3" />
+              <Clock className="w-3 h-3 shrink-0" />
               <span>{activity.time}</span>
             </div>
             {activity.user && (
-              <div className={`flex items-center gap-1 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
-                <Users className="w-3 h-3" />
-                <span>by <strong className="font-semibold">{activity.user}</strong></span>
+              <div className={`flex items-center gap-1 min-w-0 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`}>
+                <Users className="w-3 h-3 shrink-0" />
+                <span className="break-words">
+                  by <strong className="font-semibold break-words">{activity.user}</strong>
+                </span>
               </div>
             )}
           </div>
@@ -331,7 +326,7 @@ function ActivityCard({ activity, isDarkMode, onViewDetails }) {
         
         <button
           onClick={() => onViewDetails(activity)}
-          className="p-1.5 rounded-lg hover:bg-purple-500/10 transition-colors opacity-0 group-hover:opacity-100"
+          className="p-1.5 rounded-lg hover:bg-purple-500/10 transition-colors sm:opacity-0 sm:group-hover:opacity-100 shrink-0"
           title="View details"
         >
           <Eye className="w-4 h-4 text-gray-500 dark:text-gray-400 hover:text-[#4B0082] dark:hover:text-[#A855F7]" />
@@ -346,7 +341,7 @@ function ActivitySection({ title, activities, isDarkMode, onViewDetails }) {
   
   return (
     <div className="space-y-3">
-      <h2 className={`text-lg font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
+      <h2 className={`text-base sm:text-lg font-semibold ${isDarkMode ? "text-white" : "text-gray-900"}`}>
         {title}
       </h2>
       {activities.map((activity) => (
@@ -389,7 +384,6 @@ export default function ActivityPage() {
     const activitiesList = [];
 
     projectsData.forEach(project => {
-      // Project created activity
       activitiesList.push({
         id: `project_created_${project.id}`,
         type: "project_created",
@@ -402,7 +396,6 @@ export default function ActivityPage() {
         projectTitle: project.title,
       });
 
-      // Project archived/restored based on status
       if (project.archived) {
         activitiesList.push({
           id: `project_archived_${project.id}`,
@@ -417,9 +410,7 @@ export default function ActivityPage() {
         });
       }
 
-      // Task activities
       project.tasks.forEach(task => {
-        // Task created
         activitiesList.push({
           id: `task_created_${task.id}`,
           type: "task_created",
@@ -434,7 +425,6 @@ export default function ActivityPage() {
           projectTitle: project.title,
         });
 
-        // Task completed/uncompleted
         if (task.completed) {
           activitiesList.push({
             id: `task_completed_${task.id}`,
@@ -451,7 +441,6 @@ export default function ActivityPage() {
           });
         }
 
-        // Task assigned
         if (task.assignedTo) {
           activitiesList.push({
             id: `task_assigned_${task.id}`,
@@ -471,7 +460,6 @@ export default function ActivityPage() {
       });
     });
 
-    // Sort by timestamp (newest first)
     activitiesList.sort((a, b) => b.timestamp - a.timestamp);
     
     return activitiesList;
@@ -529,12 +517,10 @@ export default function ActivityPage() {
   useEffect(() => {
     let filtered = [...activities];
     
-    // Filter by type
     if (filterType !== "all") {
       filtered = filtered.filter(activity => activity.type === filterType);
     }
     
-    // Filter by search query
     if (searchQuery.trim()) {
       const query = searchQuery.toLowerCase();
       filtered = filtered.filter(activity => 
@@ -545,7 +531,6 @@ export default function ActivityPage() {
       );
     }
     
-    // Filter by date range
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
     const yesterday = today - 86400000;
@@ -565,7 +550,6 @@ export default function ActivityPage() {
     setFilteredActivities(filtered);
   }, [filterType, filterDate, searchQuery, activities]);
 
-  // Group activities by date section
   const getGroupedActivities = () => {
     const now = new Date();
     const today = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
@@ -634,45 +618,45 @@ export default function ActivityPage() {
 
   return (
     <>
-      <div className="space-y-5 max-w-7xl mx-auto px-4">
+      <div className="space-y-5 w-full">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
           <div>
-            <h1 className={`text-2xl sm:text-3xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>Activity</h1>
-            <p className={`text-sm mt-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
+            <h1 className={`text-xl sm:text-3xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>Activity</h1>
+            <p className={`text-xs sm:text-sm mt-1 ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>
               Track all activities across your projects and tasks
             </p>
           </div>
         </div>
 
         {/* Stats Cards */}
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <div className={`p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
-            <p className={`text-2xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{activities.length}</p>
-            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Total Activities</p>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 sm:gap-3">
+          <div className={`p-2.5 sm:p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
+            <p className={`text-lg sm:text-2xl font-bold ${isDarkMode ? "text-white" : "text-gray-900"}`}>{activities.length}</p>
+            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Total</p>
           </div>
-          <div className={`p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
-            <p className="text-2xl font-bold text-blue-400">{getActivityCount("task_created")}</p>
+          <div className={`p-2.5 sm:p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
+            <p className="text-lg sm:text-2xl font-bold text-blue-400">{getActivityCount("task_created")}</p>
             <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Tasks Created</p>
           </div>
-          <div className={`p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
-            <p className="text-2xl font-bold text-green-400">{getActivityCount("task_completed")}</p>
-            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Tasks Completed</p>
+          <div className={`p-2.5 sm:p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
+            <p className="text-lg sm:text-2xl font-bold text-green-400">{getActivityCount("task_completed")}</p>
+            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Completed</p>
           </div>
-          <div className={`p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
-            <p className="text-2xl font-bold text-purple-400">{getActivityCount("project_created")}</p>
-            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Projects Created</p>
+          <div className={`p-2.5 sm:p-3 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
+            <p className="text-lg sm:text-2xl font-bold text-purple-400">{getActivityCount("project_created")}</p>
+            <p className={`text-xs ${isDarkMode ? "text-gray-400" : "text-gray-500"}`}>Projects</p>
           </div>
         </div>
 
         {/* Filters and Search */}
-        <div className={`p-4 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
+        <div className={`p-3 sm:p-4 rounded-xl border ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
           <div className="flex flex-col lg:flex-row gap-3">
             <div className="relative flex-1">
               <Search className={`absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 ${isDarkMode ? "text-gray-500" : "text-gray-400"}`} />
               <input
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search activities by task, project, or user..."
+                placeholder="Search..."
                 className={`w-full pl-9 pr-4 py-2 rounded-lg border text-sm focus:outline-none focus:ring-2 ${
                   isDarkMode 
                     ? "bg-[#252832] border-[#2a2d35] text-white focus:ring-[#4B0082]/50" 
@@ -706,14 +690,14 @@ export default function ActivityPage() {
                     isDarkMode ? "text-gray-400 hover:text-white" : "text-gray-500 hover:text-gray-700"
                   }`}
                 >
-                  <X className="w-3.5 h-3.5" /> Clear All
+                  <X className="w-3.5 h-3.5" /> Clear
                 </button>
               )}
             </div>
           </div>
         </div>
 
-        {/* Activity Feed - Grouped by Date */}
+        {/* Activity Feed */}
         {filteredActivities.length === 0 ? (
           <div className={`p-12 rounded-xl border text-center ${isDarkMode ? "bg-[#1a1c23] border-[#2a2d35]" : "bg-white border-gray-200"}`}>
             <ActivityIcon className="w-12 h-12 mx-auto mb-3 opacity-50" />
@@ -722,7 +706,7 @@ export default function ActivityPage() {
             </p>
           </div>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-6 min-w-0">
             {groupedActivities.today.length > 0 && (
               <ActivitySection 
                 title="Today" 
@@ -759,7 +743,6 @@ export default function ActivityPage() {
         )}
       </div>
 
-      {/* Activity Details Modal */}
       <ActivityDetailModal
         activity={selectedActivity}
         isOpen={modalOpen}
