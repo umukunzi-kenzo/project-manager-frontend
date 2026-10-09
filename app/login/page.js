@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import toast from "react-hot-toast";
@@ -28,6 +28,7 @@ export default function LoginPage() {
   const [isExiting, setIsExiting] = useState(false);
   const [greeting, setGreeting] = useState("");
   const [googleReady, setGoogleReady] = useState(false);
+  const googleInitializedRef = useRef(false);
 
   useEffect(() => {
     const hour = new Date().getHours();
@@ -37,15 +38,31 @@ export default function LoginPage() {
   }, []);
 
   useEffect(() => {
-    const render = () => {
+    let interval;
+    let timeout;
+
+    const tryInit = () => {
+      if (!window.google) return false;
+
+      // Initialize ONCE
+      if (!googleInitializedRef.current) {
+        try {
+          window.google.accounts.id.initialize({
+            client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+            callback: handleGoogleCredential,
+          });
+          googleInitializedRef.current = true;
+        } catch (err) {
+          console.error("Google init error:", err);
+          return false;
+        }
+      }
+
+      // Now render the button (retry until container exists)
       const btnContainer = document.getElementById("google-login-btn-hidden");
-      if (!window.google || !btnContainer) return false;
+      if (!btnContainer) return false;
 
       try {
-        window.google.accounts.id.initialize({
-          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-          callback: handleGoogleCredential,
-        });
         window.google.accounts.id.renderButton(btnContainer, {
           type: "standard",
           size: "large",
@@ -54,18 +71,17 @@ export default function LoginPage() {
         setGoogleReady(true);
         return true;
       } catch (err) {
-        console.error("Google render error:", err);
         return false;
       }
     };
 
-    if (render()) return;
+    if (tryInit()) return;
 
-    const interval = setInterval(() => {
-      if (render()) clearInterval(interval);
+    interval = setInterval(() => {
+      if (tryInit()) clearInterval(interval);
     }, 100);
 
-    const timeout = setTimeout(() => clearInterval(interval), 10000);
+    timeout = setTimeout(() => clearInterval(interval), 10000);
 
     return () => {
       clearInterval(interval);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
 import toast from "react-hot-toast";
@@ -29,19 +29,34 @@ export default function RegisterPage() {
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
   const [googleReady, setGoogleReady] = useState(false);
+  const googleInitializedRef = useRef(false);
 
   useEffect(() => {
-    const render = () => {
+    let interval;
+    let timeout;
+
+    const tryInit = () => {
+      if (!window.google) return false;
+
+      if (!googleInitializedRef.current) {
+        try {
+          window.google.accounts.id.initialize({
+            client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+            callback: handleGoogleCredential,
+            prompt: "consent",
+            auto_select: false,
+          });
+          googleInitializedRef.current = true;
+        } catch (err) {
+          console.error("Google init error:", err);
+          return false;
+        }
+      }
+
       const btnContainer = document.getElementById("google-register-btn-hidden");
-      if (!window.google || !btnContainer) return false;
+      if (!btnContainer) return false;
 
       try {
-        window.google.accounts.id.initialize({
-          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-          callback: handleGoogleCredential,
-          prompt: "consent",
-          auto_select: false,
-        });
         window.google.accounts.id.renderButton(btnContainer, {
           type: "standard",
           size: "large",
@@ -52,18 +67,17 @@ export default function RegisterPage() {
         setGoogleReady(true);
         return true;
       } catch (err) {
-        console.error("Google render error:", err);
         return false;
       }
     };
 
-    if (render()) return;
+    if (tryInit()) return;
 
-    const interval = setInterval(() => {
-      if (render()) clearInterval(interval);
+    interval = setInterval(() => {
+      if (tryInit()) clearInterval(interval);
     }, 100);
 
-    const timeout = setTimeout(() => clearInterval(interval), 10000);
+    timeout = setTimeout(() => clearInterval(interval), 10000);
 
     return () => {
       clearInterval(interval);
