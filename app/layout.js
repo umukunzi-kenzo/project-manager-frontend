@@ -108,9 +108,9 @@ function LayoutContent({ children }) {
     return (
       <div className="min-h-screen">
         <Sidebar collapsed={sidebarCollapsed} onToggle={toggleSidebar} />
-        <TopBar title={title} sidebarCollapsed={sidebarCollapsed} />
+        <TopBar title={title} />
         <main
-          className={`ml-20 ${sidebarCollapsed ? "lg:ml-20" : "lg:ml-64"} pt-16 min-h-screen transition-all duration-300`}
+          className={`ml-16 ${sidebarCollapsed ? "lg:ml-16" : "lg:ml-56"} pt-16 min-h-screen transition-all duration-300`}
         >
           <div className={`p-3 sm:p-6 ${bgColor}`}>
             <div
@@ -118,7 +118,10 @@ function LayoutContent({ children }) {
               style={{
                 transitionTimingFunction: "cubic-bezier(0.16, 1, 0.3, 1)",
                 opacity: isVisible && !isExiting ? 1 : 0,
-                transform: isVisible && !isExiting ? "translateY(0) scale(1)" : "translateY(20px) scale(0.985)",
+                transform:
+                  isVisible && !isExiting
+                    ? "translateY(0) scale(1)"
+                    : "translateY(20px) scale(0.985)",
                 filter: isVisible && !isExiting ? "blur(0)" : "blur(4px)",
               }}
             >
@@ -160,9 +163,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className="h-full m-0 p-0" suppressHydrationWarning>
         <ThemeProvider>
-          <LayoutContent>
-            {children}
-          </LayoutContent>
+          <LayoutContent>{children}</LayoutContent>
           <FloatingThemeToggle />
           <Toaster
             position="top-center"

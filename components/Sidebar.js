@@ -26,18 +26,18 @@ const CollabiLogo = ({ collapsed, isDarkMode }) => {
   if (collapsed) {
     return (
       <div className="flex items-center justify-center">
-        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl overflow-hidden">
-          <Image src="/collabi.png" alt="Collabi" width={48} height={48} className="object-cover" />
+        <div className="w-9 h-9 rounded-lg overflow-hidden">
+          <Image src="/collabi.png" alt="Collabi" width={36} height={36} className="object-cover" />
         </div>
       </div>
     );
   }
   return (
-    <div className="flex items-center gap-3">
-      <div className="w-12 h-12 rounded-xl overflow-hidden">
-        <Image src="/collabi.png" alt="Collabi" width={48} height={48} className="object-cover" />
+    <div className="flex items-center gap-2.5">
+      <div className="w-10 h-10 rounded-lg overflow-hidden">
+        <Image src="/collabi.png" alt="Collabi" width={40} height={40} className="object-cover" />
       </div>
-      <span className="text-base font-semibold">
+      <span className="text-sm font-semibold">
         <span className={isDarkMode ? "text-white" : "text-gray-900"}>Coll</span>
         <span className="text-[#4B0082]">abi</span>
       </span>
@@ -70,9 +70,9 @@ export default function Sidebar({ collapsed, onToggle }) {
 
   if (!mounted) return null;
 
-  // On mobile, always show collapsed. On desktop, respect the collapsed prop.
+  // On mobile: ALWAYS collapsed (icon-only). On desktop: respect prop.
   const effectiveCollapsed = isMobile ? true : collapsed;
-  const width = effectiveCollapsed ? "w-20" : "w-64";
+  const width = effectiveCollapsed ? "w-16" : "w-56";
 
   const sidebarBg = isDarkMode ? "bg-[#0f0f12]" : "bg-white";
   const border = isDarkMode ? "border-r border-[#1f1f24]" : "border-r border-gray-100";
@@ -84,22 +84,22 @@ export default function Sidebar({ collapsed, onToggle }) {
         ${sidebarBg} ${border}
       `}
     >
-      <div className={`h-20 flex items-center border-b border-inherit ${effectiveCollapsed ? "justify-center" : "px-6"}`}>
+      <div className={`h-16 flex items-center border-b border-inherit ${effectiveCollapsed ? "justify-center" : "px-5"}`}>
         <CollabiLogo collapsed={effectiveCollapsed} isDarkMode={isDarkMode} />
       </div>
 
-      <div className={`p-3 sm:p-4 ${effectiveCollapsed ? "px-2" : ""}`}>
+      <div className={`p-2.5 ${effectiveCollapsed ? "px-2" : "px-3"}`}>
         <button
           onClick={() => router.push("/tasks")}
-          className={`w-full bg-[#4B0082] hover:bg-[#3a0066] text-white rounded-xl py-2.5 flex items-center justify-center gap-2 transition-all duration-200 text-sm font-medium ${effectiveCollapsed ? "px-2" : ""}`}
+          className={`w-full bg-[#4B0082] hover:bg-[#3a0066] text-white rounded-lg py-2 flex items-center justify-center gap-2 transition-all text-sm font-medium ${effectiveCollapsed ? "px-2" : ""}`}
           title="Add New Task"
         >
-          <PlusCircle className="w-4 h-4" />
+          <PlusCircle className="w-4 h-4 shrink-0" />
           {!effectiveCollapsed && <span>Add New Task</span>}
         </button>
       </div>
 
-      <nav className="flex-1 px-2 sm:px-3 space-y-1.5 overflow-y-auto">
+      <nav className="flex-1 px-2 space-y-1 overflow-y-auto">
         {navItems.map((item) => {
           const active = isActive(item.href);
           return (
@@ -107,8 +107,8 @@ export default function Sidebar({ collapsed, onToggle }) {
               key={item.href}
               href={item.href}
               className={`
-                flex items-center gap-3 rounded-xl transition-all duration-200 text-sm
-                ${effectiveCollapsed ? "justify-center px-2 py-3" : "px-3 py-2.5"}
+                flex items-center gap-3 rounded-lg transition-all duration-200 text-sm
+                ${effectiveCollapsed ? "justify-center px-2 py-2.5" : "px-3 py-2.5"}
                 ${active
                   ? isDarkMode
                     ? "bg-[#4B0082]/20 text-[#A855F7]"
@@ -127,20 +127,20 @@ export default function Sidebar({ collapsed, onToggle }) {
         })}
       </nav>
 
-      <div className={`p-3 sm:p-4 border-t ${isDarkMode ? "border-[#1f1f24]" : "border-gray-100"} ${effectiveCollapsed ? "px-2" : ""}`}>
+      <div className={`p-2.5 border-t ${isDarkMode ? "border-[#1f1f24]" : "border-gray-100"} ${effectiveCollapsed ? "px-2" : "px-3"}`}>
         <button
           onClick={handleLogout}
-          className={`w-full flex items-center gap-3 rounded-xl transition-all duration-200 text-sm text-red-400 hover:bg-red-500/10
-            ${effectiveCollapsed ? "justify-center px-2 py-3" : "px-3 py-2.5"}
+          className={`w-full flex items-center gap-3 rounded-lg transition-all text-sm text-red-400 hover:bg-red-500/10
+            ${effectiveCollapsed ? "justify-center px-2 py-2.5" : "px-3 py-2.5"}
           `}
-          title="Sign out"
+          title={effectiveCollapsed ? "Sign out" : undefined}
         >
           <LogOut className="w-5 h-5 shrink-0" />
           {!effectiveCollapsed && <span>Sign out</span>}
         </button>
       </div>
 
-      {/* Toggle button — only visible on desktop */}
+      {/* Toggle button — desktop only */}
       <button
         onClick={onToggle}
         className={`

@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect, useRef, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { z } from "zod";
 import toast from "react-hot-toast";
 import { User, Mail, Lock, ArrowRight, AlertCircle, Eye, EyeOff } from "lucide-react";
@@ -16,8 +16,9 @@ const registerSchema = z.object({
   password: z.string().min(1, "Password is required").min(6, "Password must be at least 6 characters"),
 });
 
-export default function RegisterPage() {
+function RegisterContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { themeClass, isDarkMode } = useTheme();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -28,61 +29,42 @@ export default function RegisterPage() {
   const [formError, setFormError] = useState("");
   const [isVisible, setIsVisible] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
-  const [googleReady, setGoogleReady] = useState(false);
   const googleInitializedRef = useRef(false);
 
   useEffect(() => {
-    let interval;
-    let timeout;
+    const error = searchParams.get("error");
+    if (error) {
+      setFormError(error);
+      toast.error(error, { position: "top-center" });
+    }
+  }, [searchParams]);
+
+  useEffect(() => {
+    let attempts = 0;
+    const MAX_ATTEMPTS = 50;
 
     const tryInit = () => {
-      if (!window.google) return false;
-
-      if (!googleInitializedRef.current) {
-        try {
-          window.google.accounts.id.initialize({
-            client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
-            callback: handleGoogleCredential,
-            prompt: "consent",
-            auto_select: false,
-          });
-          googleInitializedRef.current = true;
-        } catch (err) {
-          console.error("Google init error:", err);
-          return false;
-        }
+      attempts++;
+      if (!window.google?.accounts?.id) {
+        if (attempts < MAX_ATTEMPTS) setTimeout(tryInit, 200);
+        return;
       }
 
-      const btnContainer = document.getElementById("google-register-btn-hidden");
-      if (!btnContainer) return false;
+      if (googleInitializedRef.current) return;
 
       try {
-        window.google.accounts.id.renderButton(btnContainer, {
-          type: "standard",
-          size: "large",
-          width: 400,
-          text: "signup_with",
-          theme: "outline",
+        window.google.accounts.id.initialize({
+          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+          ux_mode: "redirect",
+          login_uri: `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google-redirect-callback?mode=register`,
         });
-        setGoogleReady(true);
-        return true;
+        googleInitializedRef.current = true;
       } catch (err) {
-        return false;
+        console.error("Google init error:", err);
       }
     };
 
-    if (tryInit()) return;
-
-    interval = setInterval(() => {
-      if (tryInit()) clearInterval(interval);
-    }, 100);
-
-    timeout = setTimeout(() => clearInterval(interval), 10000);
-
-    return () => {
-      clearInterval(interval);
-      clearTimeout(timeout);
-    };
+    tryInit();
   }, []);
 
   useEffect(() => {
@@ -98,35 +80,23 @@ export default function RegisterPage() {
     }, 450);
   };
 
-  const handleGoogleCredential = async (response) => {
-    try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/google-register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token: response.credential }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        localStorage.setItem("token", data.token);
-        localStorage.setItem("user", JSON.stringify(data.data));
-        toast.success("Account created with Google!", { position: "top-center" });
-        navigateWithFade("/dashboard");
-      } else {
-        toast.error(data.message || "Google registration failed", { position: "top-center" });
-      }
-    } catch {
-      toast.error("Google registration failed. Please try again.", { position: "top-center" });
-    }
-  };
-
   const handleGoogleRegister = () => {
-    if (!googleReady) {
-      toast.error("Google is still loading. Please wait a moment and try again.");
+    if (!window.google?.accounts?.id) {
+      toast.error("Google is still loading. Please try again in a moment.");
       return;
     }
-    const btn = document.querySelector("#google-register-btn-hidden div[role=button]");
-    if (btn) btn.click();
-    else toast.error("Google login not ready. Please refresh.", { position: "top-center" });
+    try {
+      window.google.accounts.id.prompt();
+    } catch (err) {
+      const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+      const redirectUri = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google-redirect-callback?mode=register`;
+      const nonce = Math.random().toString(36).substring(2);
+      const url =
+        `https://accounts.google.com/gsi/select?client_id=${clientId}` +
+        `&ux_mode=redirect&login_uri=${encodeURIComponent(redirectUri)}` +
+        `&nonce=${nonce}`;
+      window.location.href = url;
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -194,14 +164,14 @@ export default function RegisterPage() {
         }}
       >
         <div className={"p-5 sm:p-7 rounded-2xl border shadow-xl " + themeClass("bg-[#1c1c1e] border-gray-800", "bg-white border-gray-200")}>
-          <div className="flex justify-center mb-5">
-            <div className="rounded-xl overflow-hidden shadow-sm">
+          <div className="flex justify-center mb-6">
+            <div className="rounded-xl overflow-hidden">
               <Image
                 src="/collabi.png"
                 alt="Collabi"
-                width={140}
-                height={42}
-                className="object-contain w-auto h-9 sm:h-10"
+                width={320}
+                height={96}
+                className="object-contain w-auto h-24 sm:h-28"
                 priority
               />
             </div>
@@ -222,8 +192,6 @@ export default function RegisterPage() {
               {formError}
             </div>
           )}
-
-          <div id="google-register-btn-hidden" style={{ position: "absolute", opacity: 0, pointerEvents: "none", left: "-9999px" }} />
 
           <button
             onClick={handleGoogleRegister}
@@ -347,5 +315,19 @@ export default function RegisterPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+export default function RegisterPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center bg-[#0f0f12]">
+          <div className="w-8 h-8 border-4 border-[#4B0082] border-t-transparent rounded-full animate-spin"></div>
+        </div>
+      }
+    >
+      <RegisterContent />
+    </Suspense>
   );
 }
